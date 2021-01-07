@@ -25,13 +25,13 @@ void setup() {
   surface.setLocation(0,0);
   frameRate(60);
   
-  
+  ortho(-width/2,width/2,-height/2,height/2,1,1000000000);
   cam = new PeasyCam(this, 200);
   cam.setMinimumDistance(0);
   cam.setMaximumDistance(1000000000);
   
-  perspective(PI/3.0,(float)width/height,1,1000000000);
-  //ortho(-width/2,width/2,-height/2,height/2,1,100000);
+  //perspective(PI/3.0,(float)width/height,1,1000000000);
+  
 
   //cam.setYawRotationMode();
   
@@ -45,7 +45,7 @@ void setup() {
   
   controller = new Controller("10.77.88.243", 0, 0, 0);
   controller.setCoordinates(0, 0, 0, 0, 1000, 0, 0);
-  controller.setCoordinates(1, 0, 0, 1000, 0, 1000, 1000);
+  controller.setCoordinates(1, 1000, 0, 0, 1000, 0, 1000);
   controller.black();
   controller.send();
   
@@ -56,14 +56,9 @@ void draw() {
   background(0, 255, 255);
   if(rotate) cam.rotateY(rotationSpeed);
   
-  //println(">> new loop");
   controller.black();
-  //controller.send();
-  //println(">> set all pixels to black");
-  //println();
   for(int i = 0; i<volume; i++) controller.setPixels(c+i, white);
   
-  //println("c= " + c);
   controller.update();
   controller.display();
   drawOrientation();

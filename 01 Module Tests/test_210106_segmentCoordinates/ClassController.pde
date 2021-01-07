@@ -19,7 +19,6 @@ class Controller {
   }
   
   void send() {
-    //for(int i = 0; i<ports.length; i++) ports[i].send();
     ports[0].send();
     ports[1].send();
     ports[0].segment.reset();
@@ -52,18 +51,13 @@ class Controller {
   }
   
   void display() {
+    // draw the nebula controller
     push();
-    
-    translate(pos.x, pos.y, pos.z);
-    
-    noFill();
-    //fill(white);
-    stroke(white);
-    strokeWeight(1);
-    //rect(0, 0, 120, 160);
-    //rotateX(-.5);
-    //rotateY(-.5);
-    box(7, 5, 10);
+      translate(pos.x, pos.y, pos.z);
+      noFill();
+      stroke(white);
+      strokeWeight(1);
+      box(7, 5, 10);
     pop();
     
     ports[0].segment.display();
@@ -152,56 +146,29 @@ class Controller {
       void display() {
         
         for(int i = 0; i<universes.length; i++) {
-          //universes[i].getData()
-          //push();
-          //translate(pos.x, pos.y+(10*i));
-          //translate(startPos.x, startPos.y+(i*1), startPos.z);
           if(i == 0)  {
             push();
-            
             strokeWeight(4);
-            stroke(color(255, 0, 0));
-            //println(startPos);
-            //println(endPos);
-            line(startPos.x, startPos.y, startPos.z, endPos.x, endPos.y, endPos.z);
+            stroke(color(255, 255, 0));
+            //line(startPos.x, startPos.y, startPos.z, endPos.x, endPos.y, endPos.z);
             pop();
           }
           strokeWeight(1);
           stroke(white);
           noFill();
-          
-           // rect(0, -100, 1000, 10);
-            
-            noStroke();
-             
-          //  translate(-495, -100);
-            for(int j = 0; j<LEDperSegment; j++) {
-              push();
-              
-              PVector target = new PVector(endPos.x, endPos.y, endPos.z);
-              PVector center = new PVector(startPos.x, startPos.y, startPos.z);
-              //PVector target = endPos;
-              //PVector center = startPos;
-              //println("target=" + target);
-              //println("center=" + center);
-              PVector newPos = PVector.sub(target, center);
-              //target.sub(center);
-              float ccc = map(j+(LEDperSegment*i), 0, LEDperSegment*4, 0.0f, 1.0f);
-              //target.mult(ccc);
-              newPos.mult(ccc);
-              //println("j=" + j + " = " + ccc);
-              //translate(target.x, target.y, target.z);
-              translate(newPos.x, newPos.y, newPos.z);
-              color c = color(universes[i].getIntData()[(j*3)+0], universes[i].getIntData()[(j*3)+1], universes[i].getIntData()[(j*3)+2]);
-              fill(segColor[i]);
-              //rect(j*pitch, i, 10, 10);
-              //rect(0, 0, 20, 20);
-              box(1);
-              pop();
-            }
-            
-          
-         // pop();
+          noStroke();
+          for(int j = 0; j<LEDperSegment; j++) {
+            push();
+            PVector newPos = PVector.sub(endPos, startPos);
+            float ccc = map(j+(LEDperSegment*i), 0, LEDperSegment*4, 0.0f, 1.0f);
+            newPos.mult(ccc);
+            translate(startPos.x, startPos.y, startPos.z);
+            translate(newPos.x, newPos.y, newPos.z);
+            color c = color(universes[i].getIntData()[(j*3)+0], universes[i].getIntData()[(j*3)+1], universes[i].getIntData()[(j*3)+2]);
+            fill(c);
+            box(0.5);
+            pop();
+          }
         }
         //println("lit= " + ledsLit);
       }
